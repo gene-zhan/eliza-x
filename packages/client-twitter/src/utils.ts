@@ -358,7 +358,7 @@ export async function genImage(strPrompt: string): Promise<any> {
 
     try {
         const heuristResponse = await heurist.images.generate({
-            model: "BrainDance",
+            model: "MagusDevon",
             prompt: strPrompt,
             neg_prompt: "worst quality",
             num_iterations: 25,
