@@ -10,6 +10,7 @@ import {
 } from "@ai16z/eliza";
 import { elizaLogger } from "@ai16z/eliza";
 import { ClientBase } from "./base.ts";
+import {genImage} from "./utils.ts";
 
 const twitterPostTemplate = `
 # Areas of Expertise
@@ -182,10 +183,11 @@ export class TwitterPostClient {
 
             try {
                 elizaLogger.log(`Posting new tweet:\n ${content}`);
+                const imgData = await genImage(content);
 
                 const result = await this.client.requestQueue.add(
                     async () =>
-                        await this.client.twitterClient.sendTweet(content)
+                        await this.client.twitterClient.sendTweet(content,undefined,imgData)
                 );
                 const body = await result.json();
                 if (!body?.data?.create_tweet?.tweet_results?.result) {
