@@ -182,7 +182,7 @@ export async function sendTweet(
         let result: Response;
         if (
             inReplyText &&
-            (inReplyText.includes("image") || inReplyText.includes("img"))
+            (inReplyText.includes("image") || inReplyText.includes("img") || inReplyText.includes("picture") )
         ) {
             elizaLogger.info("===start genImage:", content.text);
             const imageData = await genImage(content.text);
