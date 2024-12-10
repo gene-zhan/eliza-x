@@ -49,3 +49,6 @@ tsup.config.bundled_*.mjs
 .turbo
 .idea
 .vscode
+agent/generatedImages
+
+docs/
