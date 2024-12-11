@@ -180,9 +180,10 @@ export async function sendTweet(
     elizaLogger.info("==start sendTweet:", inReplyText);
     for (const chunk of tweetChunks) {
         let result: Response;
+        const keywords = ["image", "img", "picture"];
         if (
             inReplyText &&
-            (inReplyText.includes("image") || inReplyText.includes("img") || inReplyText.includes("picture") )
+            keywords.some(keyword => inReplyText.includes(keyword))
         ) {
             elizaLogger.info("===start genImage:", content.text);
             const imageData = await genImage(content.text);
@@ -358,7 +359,7 @@ export async function genImage(strPrompt: string): Promise<any> {
 
     try {
         const heuristResponse = await heurist.images.generate({
-            model: "MagusDevon",
+            model: "PepeXL",
             prompt: strPrompt,
             neg_prompt: "worst quality",
             num_iterations: 25,
