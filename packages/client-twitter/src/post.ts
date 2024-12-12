@@ -183,12 +183,24 @@ export class TwitterPostClient {
 
             try {
                 elizaLogger.log(`Posting new tweet:\n ${content}`);
-                const imgData = await genImage(content);
+                let result: Response;
 
-                const result = await this.client.requestQueue.add(
-                    async () =>
-                        await this.client.twitterClient.sendTweet(content,undefined,imgData)
-                );
+                // 如果 概念命令6分之1 则生成一张 配图
+                const randomNumber = Math.floor(Math.random() * 600) + 1;
+                // 检查是否满足 1/6 的概率
+                if (randomNumber <= 100) {
+                    const imgData = await genImage(content);
+                    result = await this.client.requestQueue.add(
+                        async () =>
+                            await this.client.twitterClient.sendTweet(content,undefined,imgData)
+                    );
+                }else {
+                    result = await this.client.requestQueue.add(
+                        async () =>
+                            await this.client.twitterClient.sendTweet(content)
+                    );
+                }
+
                 const body = await result.json();
                 if (!body?.data?.create_tweet?.tweet_results?.result) {
                     console.error("Error sending tweet; Bad response:", body);
